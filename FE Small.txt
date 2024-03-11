@@ -1,0 +1,23 @@
+-- Variables
+
+local player = game.Players.LocalPlayer
+local mouse = player:GetMouse()
+
+-- Settings
+
+local SizeChange = -4
+
+        for i,v in pairs(player.Character:GetChildren()) do
+            if v:IsA("Part") then
+                v.Size = Vector3.new(v.Size.X + SizeChange, v.Size.Y + SizeChange, v.Size.Z + SizeChange)
+            end
+            if v:IsA("MeshPart") then
+                v.Size = Vector3.new(v.Size.X + SizeChange, v.Size.Y + SizeChange, v.Size.Z + SizeChange)
+            end
+        end
+
+        task.spawn(function()
+    game:GetService("RunService").RenderStepped:Connect(function()
+        workspace.CurrentCamera.CFrame = (game.Players.LocalPlayer.Character.Head.CFrame * CFrame.Angles(math.rad(0),0,0)) * CFrame.new(0,-4,0)
+    end)
+end)

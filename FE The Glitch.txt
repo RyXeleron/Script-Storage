@@ -1,0 +1,709 @@
+
+-- [ GlitchMaster ] --
+-- [ Cucumber Quest ] --
+wait()
+LoudVolume = false
+Music = true
+script.Name = "GlitchMaster"
+Player = game.Players.LocalPlayer
+c = game.Players.LocalPlayer.Character
+Head = c.Head
+anim = c.Humanoid.Animator
+rage = false
+Battle = false
+p = game.Players.LocalPlayer
+Music = false
+PhaseEnabled = true
+TeleportEnabled = true
+c.Archivable = true
+WholeBody = c:clone()
+local Effects = {}
+attack = false
+local attacking = false
+vt = Vector3.new
+bc = BrickColor.new
+br = BrickColor.random
+it = Instance.new
+cf = CFrame.new
+euler = CFrame.fromEulerAnglesXYZ
+angles = CFrame.Angles
+matr = math.random
+mouse = Player:GetMouse()
+
+
+local S10 = Instance.new("Sound") local S11 = Instance.new("ParticleEmitter")
+
+ c.Humanoid.WalkSpeed = 24 c.Humanoid.JumpPower = 50
+
+  RSC0 = CFrame.new(1, 0.5, 0, 0, 0, 1, 0, 1, 0, -1, 0, 0)
+  RSC1 = CFrame.new(-0.5, 0.5, 0, 0, 0, 1, 0, 1, 0, -1, 0, 0)
+  LSC0 = CFrame.new(-1, 0.5, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+  LSC1 = CFrame.new(0.5, 0.5, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+  RHC0 = CFrame.new(1, -1, 0, 0, 0, 1, 0, 1, 0, -1, 0, 0)
+  RHC1 = CFrame.new(0.5, 1, 0, 0, 0, 1, 0, 1, 0, -1, 0, 0)
+  LHC0 = CFrame.new(-1, -1, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+  LHC1 = CFrame.new(-0.5, 1, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+  NC0 = CFrame.new(0, 1, 0, -1, 0, 0, 0, 0, 1, 0, 1, 0)
+  NC1 = CFrame.new(0, -0.5, 0, -1, 0, 0, 0, 0, 1, 0, 1, 0)
+  RJC0 = CFrame.new(0, 0, 0, -1, 0, 0, 0, 0, 1, 0, 1, 0)
+  RJC1 = CFrame.new(0, 0, 0, -1, 0, 0, 0, 0, 1, 0, 1, 0)
+  RS = c.Torso:FindFirstChild("Right Shoulder")
+  LS = c.Torso:FindFirstChild("Left Shoulder")
+  RH = c.Torso:FindFirstChild("Right Hip")
+  LH = c.Torso:FindFirstChild("Left Hip")
+  RJ = c.HumanoidRootPart:FindFirstChild("RootJoint")
+  N = c.Torso:FindFirstChild("Neck")
+  cf = CFrame.new
+  ang = CFrame.Angles
+  rd = math.rad
+  rd2 = math.random
+
+function swait(num)
+if num==0 or num==nil then
+game:service'RunService'.Heartbeat:wait(0)
+else
+for i=0,num do
+game:service'RunService'.Heartbeat:wait(0)
+end
+end
+end
+
+function AnimDis()
+if c.Animate.Disabled == false then
+c.Animate.Disabled = true
+anim.Parent = nil
+else
+anim.Parent = c.Humanoid
+c.Animate.Disabled = false
+end
+end
+function lerpz(joint, prop, cfrmz, alp)
+joint[prop] = joint[prop]:lerp(cfrmz, alp)
+end
+function resetlerp()
+RJ.C0 = RJC0
+RJ.C1 = RJC1
+N.C0 = NC0
+N.C1 = NC1
+RS.C0 = RSC0
+RS.C1 = RSC1
+LS.C0 = LSC0
+LS.C1 = LSC1
+RH.C0 = RHC0
+RH.C1 = RHC1
+LH.C0 = LHC0
+LH.C1 = LHC1
+end
+
+game:GetService('UserInputService').InputBegan:connect(function(InputObj)
+if InputObj.KeyCode == Enum.KeyCode.Slash then
+local finishEvent = nil
+isTyping = true
+finishEvent = game:GetService('UserInputService').InputBegan:connect(function(InputObj)
+if InputObj.KeyCode == Enum.KeyCode.Return or InputObj.UserInputType == Enum.UserInputType.MouseButton1 then
+isTyping = false
+finishEvent:disconnect()
+end
+end)
+end
+end)
+
+function VirusDestroy(H)
+spawn(function()
+for i = 1,1000 do
+H.Transparency = H.Transparency + 1/1000
+swait()
+end
+game.Debris:AddItem(H,3)H.Anchored = true
+end)
+end
+
+function HitInfect(Part)
+Part.Touched:connect(function(Hit)
+if Hit.Size.Y <= 30 and Hit.Size.X <= 30 and Hit.Size.Z <= 30 and Hit.Transparency < 1 and Hit:findFirstChild("Glitch")== nil and Hit.Parent ~= c then
+local S = S10:clone() S.Parent = Hit S.Volume = 0.1 S.SoundId = "rbxassetid://606774093" S.Looped = true S:Play()
+Hit.Material = "Sand" Hit.BrickColor = BrickColor.new("Really black") HitInfect(Hit) VirusDestroy(Hit)
+for i = 1,2 do
+local tra = S11:clone() tra.Parent = Hit
+tra.Texture = "rbxassetid://744949545"
+tra.LightEmission = 0
+if i == 1 then
+tra.Color = ColorSequence.new(Color3.new(0/255,255/255,0/255))
+tra.ZOffset = 2.5
+else
+tra.Color = ColorSequence.new(Color3.new(0/255,0/255,0/255))
+tra.ZOffset = 3
+end
+local PSize = (Hit.Size.Y+Hit.Size.X+Hit.Size.Z)/20
+tra.Lifetime = NumberRange.new(1,3)
+tra.Size = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.1,PSize,0),NumberSequenceKeypoint.new(1,0,0)})
+tra.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.8,0,0),NumberSequenceKeypoint.new(1,1,0)})
+tra.Speed = NumberRange.new(0.5) tra.VelocitySpread = 360 tra.Name = "Glitch" 
+tra.LockedToPart = true
+tra.Rate = 15
+tra.VelocityInheritance = 0.2
+if Hit:findFirstChild("Mesh") and Hit.Name ~= "Head" then
+if Hit:findFirstChild("Mesh"):IsA("SpecialMesh") then
+Hit.Mesh.TextureId = "rbxassetid://64619306"
+end
+elseif Hit.Name ~= "Head" then
+local M = Instance.new("SpecialMesh",Hit)M.MeshId = "rbxassetid://9856898" M.TextureId = "rbxassetid://64619306"
+M.Scale = Vector3.new(Hit.Size.X*2,Hit.Size.Y*2,Hit.Size.Z*2)	
+end
+end
+end
+end)
+end
+function Virusify(Hit)
+local S = S10:clone() S.Parent = Hit S.Volume = 0.1 S.SoundId = "rbxassetid://606774093" S.Looped = true S:Play()
+Hit.Material = "Sand" Hit.BrickColor = BrickColor.new("Really black") 
+for i = 1,2 do
+local tra = S11:clone() tra.Parent = Hit
+tra.Texture = "rbxassetid://744949545"
+tra.LightEmission = 0
+if i == 1 then
+tra.Name = "Glitch" 
+tra.Color = ColorSequence.new(Color3.new(0/255,255/255,0/255))
+tra.ZOffset = 2.5
+else
+tra.Name = "Glitch2" 
+tra.Color = ColorSequence.new(Color3.new(0/255,0/255,0/255))
+tra.ZOffset = 3
+end
+local PSize = (Hit.Size.Y+Hit.Size.X+Hit.Size.Z)/20
+tra.Lifetime = NumberRange.new(1,3)
+tra.Size = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.1,PSize*0.75,0),NumberSequenceKeypoint.new(1,0,0)})
+tra.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.8,0,0),NumberSequenceKeypoint.new(1,1,0)})
+tra.Speed = NumberRange.new(0.5) tra.VelocitySpread = 360 
+tra.LockedToPart = true
+tra.Rate = 15+(Hit.Size.Y+Hit.Size.X+Hit.Size.Z)*5
+tra.VelocityInheritance = 0.2
+if Hit:findFirstChild("Mesh") and Hit.Name ~= "Head" then
+if Hit:findFirstChild("Mesh"):IsA("SpecialMesh") then
+Hit.Mesh.TextureId = "rbxassetid://64619306"
+end
+elseif Hit.Name ~= "Head" then
+local M = Instance.new("SpecialMesh",Hit)M.MeshId = "rbxassetid://9856898" M.TextureId = "rbxassetid://64619306"
+M.Scale = Vector3.new(Hit.Size.X*2,Hit.Size.Y*2,Hit.Size.Z*2)	
+end
+end
+end
+
+function Virusify2(Hit)
+Hit.Material = "Sand" Hit.BrickColor = BrickColor.new("Really black")
+for i = 1,2 do
+local tra = S11:clone() tra.Parent = Hit
+tra.Texture = "rbxassetid://744949545"
+tra.LightEmission = 0
+if i == 1 then
+tra.Name = "Glitch" 
+tra.Color = ColorSequence.new(Color3.new(0/255,255/255,0/255))
+tra.ZOffset = 2.5
+else
+tra.Name = "Glitch2" 
+tra.Color = ColorSequence.new(Color3.new(0/255,0/255,0/255))
+tra.ZOffset = 3
+end
+local PSize = (Hit.Size.Y)/4
+tra.Lifetime = NumberRange.new(0.5)
+tra.Size = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.1,1,0),NumberSequenceKeypoint.new(1,0,0)})
+tra.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.8,0,0),NumberSequenceKeypoint.new(1,1,0)})
+tra.Speed = NumberRange.new(0.5) tra.VelocitySpread = 360 
+tra.LockedToPart = true
+tra.Rate = 50
+tra.VelocityInheritance = 0.2
+if Hit:findFirstChild("Mesh") and Hit.Name ~= "Head" then
+if Hit:findFirstChild("Mesh"):IsA("SpecialMesh") then
+Hit.Mesh.TextureId = "rbxassetid://64619306"
+end
+elseif Hit.Name ~= "Head" then
+local M = Instance.new("SpecialMesh",Hit)M.MeshId = "rbxassetid://9856898" M.TextureId = "rbxassetid://64619306"
+M.Scale = Vector3.new(Hit.Size.X*2,Hit.Size.Y*2,Hit.Size.Z*2)	
+end
+end
+end
+
+function Virusify3(Hit)
+local S = S10:clone() S.Parent = Hit S.Volume = 0.1 S.SoundId = "rbxassetid://606774093" S.Looped = true S:Play()
+Hit.Material = "Sand" Hit.BrickColor = BrickColor.new("Really black") 
+for i2 = 1,2 do
+for i = 1,2 do
+local tra = S11:clone() tra.Parent = Hit
+tra.Texture = "rbxassetid://744949545"
+tra.LightEmission = 0
+if i == 1 then
+tra.Name = "Glitch" 
+tra.Color = ColorSequence.new(Color3.new(0/255,255/255,0/255))
+tra.ZOffset = 2.5
+else
+tra.Name = "Glitch2" 
+tra.Color = ColorSequence.new(Color3.new(0/255,0/255,0/255))
+tra.ZOffset = 3
+end
+if i2 == 1 then
+tra.LockedToPart = true
+else
+tra.LockedToPart = false	
+end
+local PSize = (Hit.Size.Y+Hit.Size.X+Hit.Size.Z)/20
+tra.Lifetime = NumberRange.new(1,3)
+tra.Size = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.1,PSize*0.75,0),NumberSequenceKeypoint.new(1,0,0)})
+tra.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.8,0,0),NumberSequenceKeypoint.new(1,1,0)})
+tra.Speed = NumberRange.new(0.5) tra.VelocitySpread = 360 
+tra.Rate = 35+(Hit.Size.Y+Hit.Size.X+Hit.Size.Z)*5
+tra.VelocityInheritance = 0.2
+if Hit:findFirstChild("Mesh") and Hit.Name ~= "Head" then
+if Hit:findFirstChild("Mesh"):IsA("SpecialMesh") then
+Hit.Mesh.TextureId = "rbxassetid://64619306"
+end
+elseif Hit.Name ~= "Head" then
+local M = Instance.new("SpecialMesh",Hit)M.MeshId = "rbxassetid://9856898" M.TextureId = "rbxassetid://64619306"
+M.Scale = Vector3.new(Hit.Size.X*2,Hit.Size.Y*2,Hit.Size.Z*2)	
+end
+end
+end
+end
+
+local S = Instance.new("Sound",c.HumanoidRootPart)S.Volume = 0.4 S.SoundId = "rbxassetid://606774093" S.Looped = true S:Play()
+
+for i,v in pairs(c:children()) do
+if v.ClassName == "Accessory" then
+v:remove()
+end
+end
+
+if c:findFirstChild("Body Colors") then
+c:findFirstChild("Body Colors"):remove()
+end
+for i,v in pairs (c:children()) do
+if v.ClassName == "Part" then
+if v.Name ~= "HumanoidRootPart" then
+HitInfect(v)
+v.Material = "Sand" v.BrickColor = BrickColor.new("Really black")
+for i2 = 1,2 do
+for i = 1,2 do
+local tra = S11:clone() tra.Parent = v
+tra.Texture = "rbxassetid://744949545"
+tra.LightEmission = 0
+if i == 1 then
+tra.Color = ColorSequence.new(Color3.new(0/255,255/255,0/255))
+tra.ZOffset = 2.5
+else
+tra.Color = ColorSequence.new(Color3.new(0/255,0/255,0/255))
+tra.ZOffset = 3
+end
+tra.Rate = 15
+tra.Lifetime = NumberRange.new(1,3)
+tra.Size = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.1,0.15,0),NumberSequenceKeypoint.new(1,0,0)})
+tra.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.8,0,0),NumberSequenceKeypoint.new(1,1,0)})
+tra.Speed = NumberRange.new(0.5) tra.VelocitySpread = 360 tra.Name = "Glitch" 
+if i2 == 1 then
+tra.LockedToPart = true
+tra.Rate = 10
+else
+tra.LockedToPart = false
+tra.ZOffset = tra.ZOffset - 2.25
+end
+tra.VelocityInheritance = 0.2
+end
+if v.Name ~= "Head" then
+local M = Instance.new("SpecialMesh",v)M.MeshId = "rbxassetid://9856898" M.TextureId = "rbxassetid://64619306"
+M.Scale = Vector3.new(v.Size.X*2,v.Size.Y*2,v.Size.Z*2)
+end
+end
+end
+end
+end
+c.Head.Transparency = 1
+local P = Instance.new("Part",c)P.Size = Vector3.new(1,1,1)P.Anchored = false P.CanCollide = false P.Name = "HeadPart"
+local W = Instance.new("Weld",P)W.Part0 = P W.Part1 = c.Head
+local HM = Instance.new("SpecialMesh",P)HM.MeshId = "rbxassetid://539723444" HM.TextureId = "rbxassetid://64619306" HM.Scale = Vector3.new(0.97,0.97,0.97)
+wait()
+c.Head:FindFirstChild("face").Texture = ""
+if c:findFirstChild("Shirt")~=nil then
+c:findFirstChild("Shirt"):remove()
+end
+if c:findFirstChild("Pants")~=nil then
+c:findFirstChild("Pants"):remove()
+end
+
+local flying = false
+local deb = true 
+local ctrl = {f = 0, b = 0, l = 0, r = 0} 
+local lastctrl = {f = 0, b = 0, l = 0, r = 0} 
+local maxspeed = 25 
+local speed = 0 
+
+function Fly() 
+local bg = Instance.new("BodyGyro", c.HumanoidRootPart) 
+bg.P = 100000 bg.D = 100
+bg.maxTorque = Vector3.new(math.huge, 0, math.huge) 
+bg.cframe = c.HumanoidRootPart.CFrame 
+local bv = Instance.new("BodyVelocity", c.HumanoidRootPart) 
+bv.velocity = Vector3.new(0,0.1,0) 
+bv.maxForce = Vector3.new(math.huge, math.huge, math.huge) 
+repeat wait() 
+c.Humanoid.PlatformStand = true 
+if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then 
+speed = speed+1+(speed/maxspeed) 
+if speed > maxspeed then 
+speed = maxspeed 
+end 
+elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then 
+speed = speed-1 
+if speed < 0 then 
+speed = 0 
+end 
+end 
+if (ctrl.l + ctrl.r) ~= 0 or (ctrl.f + ctrl.b) ~= 0 then 
+bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (ctrl.f+ctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(ctrl.l+ctrl.r,(ctrl.f+ctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
+lastctrl = {f = ctrl.f, b = ctrl.b, l = ctrl.l, r = ctrl.r} 
+elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then 
+bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
+else 
+bv.velocity = Vector3.new(0,0.1,0) 
+end 
+until not flying 
+ctrl = {f = 0, b = 0, l = 0, r = 0} 
+lastctrl = {f = 0, b = 0, l = 0, r = 0} 
+speed = 0 
+bv:Destroy() 
+c.Humanoid.PlatformStand = false 
+end 
+
+Cloud = false
+function CloudForm()
+if Cloud == false then
+S.Volume = 1
+attack = true Cloud = true
+for i = 1,10 do
+lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.1)
+lerpz(N, "C0", NC0 * cf(0, 0, -1) * ang(rd(0), rd(0), rd(0)), 0.1)
+lerpz(RS, "C0", RSC0 * cf(0, 0, -2) * ang(rd(0), rd(0), rd(0)), 0.1)
+lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.1)
+lerpz(LS, "C0", LSC0 * cf(0, 0, -2) * ang(rd(0), rd(0), rd(0)), 0.1)
+lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.1)
+lerpz(RH, "C0", RHC0 * cf(0, 2.2, 0) * ang(rd(0), rd(0), rd(0)), 0.1)
+lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.1)
+lerpz(LH, "C0", LHC0 * cf(0, 2.2, 0) * ang(rd(0), rd(0), rd(0)), 0.1)
+lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.1)
+swait()
+end
+lerpz(RJ, "C0", RJC0 * cf(0, 0, 2500) * ang(rd(0), rd(0), rd(0)), 1)
+local Cl = Instance.new("Part",c)Cl.Size = Vector3.new(10,10,10) Cl.CanCollide = false Cl.Anchored = false Cl.CFrame = c.HumanoidRootPart.CFrame
+Cl.CustomPhysicalProperties = PhysicalProperties.new(0,0.3,0.5)
+Cl.Material = "Sand" Cl.BrickColor = BrickColor.new("Really black") Cl.Name = "Cloud"
+HitInfect(Cl)
+for i2 = 1,2 do
+for i = 1,2 do
+local tra = S11:clone() tra.Parent = CL
+tra.Texture = "rbxassetid://744949545"
+tra.LightEmission = 0
+if i == 1 then
+tra.Color = ColorSequence.new(Color3.new(0/255,255/255,0/255))
+tra.ZOffset = 2.5
+else
+tra.Color = ColorSequence.new(Color3.new(0/255,0/255,0/255))
+tra.ZOffset = 3
+end
+tra.Lifetime = NumberRange.new(1,3)
+tra.Size = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.1,1,0),NumberSequenceKeypoint.new(1,0,0)})
+tra.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.8,0,0),NumberSequenceKeypoint.new(1,1,0)})
+tra.Speed = NumberRange.new(0.5) tra.VelocitySpread = 360 tra.Name = "Glitch" 
+if i2 == 1 then
+tra.LockedToPart = true
+tra.Speed = NumberRange.new(0.5)
+else
+tra.LockedToPart = false
+tra.Speed = NumberRange.new(4)
+end
+tra.Rate = 250
+tra.VelocityInheritance = 0.2
+end
+end
+local W = Instance.new("Weld",c.HumanoidRootPart)W.Part0 = c.HumanoidRootPart W.Part1 = Cl
+local M = Instance.new("SpecialMesh",Cl)M.MeshId = "rbxassetid://9856898" M.TextureId = "rbxassetid://64619306"
+for i = 1,80 do
+M.Scale = Vector3.new(i/4,i/4,i/4)
+c.HumanoidRootPart.CFrame = c.HumanoidRootPart.CFrame*CFrame.new(0,3,0)
+swait()
+end
+flying = true attack = false
+Fly()
+else
+attack = true S.Volume = 0.4
+if c:findFirstChild("Cloud") ~= nil then
+lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+if c.HumanoidRootPart:findFirstChild("Smile")~= nil then
+for i = 1,20 do
+c.HumanoidRootPart.Smile.ImageLabel.ImageTransparency = c.HumanoidRootPart.Smile.ImageLabel.ImageTransparency + 0.05
+swait()
+end
+c.HumanoidRootPart.Smile:remove()
+end
+for i,v in pairs(c:findFirstChild("Cloud"):children()) do
+if v.Name == "Glitch" then
+v.Enabled = false
+end
+end
+for i = 1,80 do
+c:findFirstChild("Cloud").Mesh.Scale =  c:findFirstChild("Cloud").Mesh.Scale - Vector3.new(0.25,0.25,0.25)
+swait()
+end
+game.Debris:AddItem(c:findFirstChild("Cloud"),2)
+Cloud = false end flying = false
+wait(2)
+attack = false
+end
+end
+
+function CloudFace()
+if c.HumanoidRootPart:findFirstChild("Smile")~= nil then
+for i = 1,20 do
+c.HumanoidRootPart.Smile.ImageLabel.ImageTransparency = c.HumanoidRootPart.Smile.ImageLabel.ImageTransparency + 0.05
+swait()
+end
+c.HumanoidRootPart.Smile:remove()
+else
+local BillBoard = Instance.new("BillboardGui",c.HumanoidRootPart)BillBoard.Name = "Smile" BillBoard.AlwaysOnTop = true BillBoard.Size = UDim2.new(10,0,10,0)
+local Im = Instance.new("ImageLabel",BillBoard) Im.BackgroundTransparency = 1 Im.Size = UDim2.new(1,0,1,0)Im.Image = "rbxassetid://915081021" 
+end
+end
+
+
+function VirusExplosion(Pos)
+for i = 1,10 do
+for i2 = 1,8 do
+local V = Instance.new("Part")V.Size = Vector3.new(1+i*20,0.5,10)V.Anchored = true V.CanCollide = false
+V.CFrame = Pos*CFrame.Angles(0,math.rad(45*i2),0) Virusify2(V) VirusFade(V)
+V.CFrame = V.CFrame*CFrame.new(0,3,2*i)HitInfect(V) V.Parent = game.Workspace
+end
+swait()
+end
+end
+
+function VirusFade(H) 
+spawn(function()
+for i = 1,10 do
+H.Transparency = H.Transparency + 1/10
+swait()
+end
+H:findFirstChild("Glitch").Enabled = false H:findFirstChild("Glitch2").Enabled = false
+game.Debris:AddItem(H,0.2)
+end)
+end
+
+function VirusFade2(H) 
+spawn(function()
+for i = 1,25 do
+H.Transparency = H.Transparency + 1/25
+swait()
+end
+H:findFirstChild("Glitch").Enabled = false H:findFirstChild("Glitch2").Enabled = false
+game.Debris:AddItem(H,4)
+end)
+end
+
+function HammerSlam()
+c.HumanoidRootPart.Anchored = true
+attack = true
+AnimDis()
+for i = 1,15 do
+lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(20), rd(0), rd(0)), 0.2)-- Y, X, Z
+lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(20), rd(0), rd(0)), 0.2) -- Y, X, Z
+lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(45), rd(65)), 0.2) -- Z, X, Y 
+lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(-45), rd(-65)), 0.2) -- Z, X, Y
+lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(45)), 0.2)
+lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(-45)), 0.2)
+swait()
+end
+local H = Instance.new("Part",c)H.Size = Vector3.new(1,1,15)H.CanCollide = false
+local H2 = Instance.new("Part",c)H2.Size = Vector3.new(5,10,5)H2.CanCollide = false
+local W = Instance.new("Weld",c["Torso"])W.Part0 = c["Torso"] W.Part1 = H  W.C0 = CFrame.new(0,-2,0)
+local W2 = Instance.new("Weld",H2)W2.Part0 = H2 W2.Part1 = H W2.C0 = CFrame.new(0,0,-4)
+Virusify(H) Virusify(H2)HitInfect(H)HitInfect(H2)
+for i = 1,45 do
+W.C0 = CFrame.new(0,2,4)*CFrame.Angles(math.rad(5),0,0)
+lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(-20), rd(0), rd(0)), 0.2)-- Y, X, Z
+lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(-20), rd(0), rd(0)), 0.2) -- Y, X, Z
+lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(-45), rd(220)), 0.2) -- Z, X, Y 
+lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(45), rd(-220)), 0.2) -- Z, X, Y
+lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(-45)), 0.2)
+lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(45)), 0.2)
+swait()
+end
+W.C0 = CFrame.new(0,3,-8)*CFrame.Angles(math.rad(200),0,0)
+for i = 1,15 do
+lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(20), rd(0), rd(0)), 0.5)-- Y, X, Z
+lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(20), rd(0), rd(0)), 0.5) -- Y, X, Z
+lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(45), rd(65)), 0.5) -- Z, X, Y 
+lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(-45), rd(-65)), 0.5) -- Z, X, Y
+lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(45)), 0.5)
+lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(-45)), 0.5)
+swait()
+end
+local S = Instance.new("Sound",H2)S.Volume = 2 S.SoundId = "rbxassetid://211062246" S:Play()
+for i = 1,45 do
+for i2 = 1,8 do
+local V = Instance.new("Part")V.Size = Vector3.new(10+i*4,1,10)V.Anchored = true V.CanCollide = false
+V.CFrame = H2.CFrame*CFrame.Angles(0,math.rad(45*i2),0) Virusify2(V) VirusFade(V)
+V.CFrame = V.CFrame*CFrame.new(0,3,5*i)HitInfect(V) V.Parent = game.Workspace
+end
+swait()
+end
+H.Anchored = true H2.Anchored = true
+W:remove() W2:remove()
+c.HumanoidRootPart.Anchored = false
+AnimDis()
+attack = false
+spawn(function()
+wait(3) H.Transparency = 1 H2.Transparency = 1
+H:findFirstChild("Glitch").Enabled = false H2:findFirstChild("Glitch").Enabled = false
+H:findFirstChild("Glitch2").Enabled = false H2:findFirstChild("Glitch2").Enabled = false
+game.Debris:AddItem(H,4) game.Debris:AddItem(H2,4)
+end)
+end
+
+function Missiles()
+attack = true
+local Mis = Instance.new("Part",game.Workspace)Mis.Name = "GlitchMissle" Mis.Size = Vector3.new(2,2,12) Mis.CFrame = c.HumanoidRootPart.CFrame Virusify3(Mis)
+Mis.CFrame = CFrame.new(Mis.CFrame:toWorldSpace(CFrame.new(0,0,0)).p,mouse.hit.p+Vector3.new(math.random(-20,20),math.random(-20,20),math.random(-20,20)))
+Mis.CanCollide = false local BV = Instance.new("BodyVelocity",Mis)BV.Velocity = Mis.CFrame.lookVector*150 BV.maxForce = Vector3.new(math.huge,math.huge,math.huge)
+local hit = false
+Mis.Touched:connect(function(Hit)
+if Hit.Parent ~= c then
+if hit == false then hit = true
+Mis.Anchored = true VirusFade2(Mis)
+VirusExplosion(CFrame.new(Mis.Position))
+end
+end
+end)
+wait(0.1)
+attack = false
+end
+
+mouse.KeyDown:connect(function(key)
+if c.Humanoid.Health <= 0 then return end
+if attack == true then return end
+if Cloud == true then
+if key == "f" then
+CloudFace()
+end
+if key == "z" then
+Missiles()
+end
+elseif Cloud == false then
+if key == "z" then
+HammerSlam()
+end
+end
+if key == "m" then
+CloudForm()
+end
+end)
+
+local LastPos = c.HumanoidRootPart.CFrame
+local Resetting = false
+function Reset()
+if Resetting == false then Resetting = true
+c.Parent = nil 
+c.Humanoid.Health = math.huge c.Humanoid.MaxHealth = math.huge
+for i,v in pairs(c:children()) do if v.ClassName == "Part" then v:remove() end end
+local Tors = Instance.new("Part",c)Tors.Name = "Torso" Tors.Size = Vector3.new(2,2,1) Virusify(Tors)
+local Hed = Instance.new("Part",c)Hed.Name = "Head" Hed.Size = Vector3.new(2,1,1) Virusify(Hed) Hed.Transparency = 1
+makejoint(c.Torso, NC0, NC1, c.Torso, c.Head, "Neck")
+local Hum = Instance.new("Part",c)Hum.Name = "HumanoidRootPart" Hum.Size = Vector3.new(2,2,1) Hum.Transparency = 1
+makejoint(c.HumanoidRootPart, RJC0, RJC1, c.HumanoidRootPart, c.Torso, "RootJoint")
+local P = Instance.new("Part",c)P.Size = Vector3.new(1,1,1)P.Anchored = false P.CanCollide = false P.Name = "HeadPart"
+local W = Instance.new("Weld",P)W.Part0 = P W.Part1 = c.Head
+local HM = Instance.new("SpecialMesh",P)HM.MeshId = "rbxassetid://539723444" HM.TextureId = "rbxassetid://64619306" HM.Scale = Vector3.new(0.97,0.97,0.97)
+local RiArm = Instance.new("Part",c)RiArm.Name = "Right Arm" RiArm.Size = Vector3.new(1,2,1) Virusify(RiArm)
+makejoint(c.Torso, RSC0, RSC1, c.Torso, RiArm, "Right Shoulder")
+local LeArm = Instance.new("Part",c)LeArm.Name = "Left Arm" LeArm.Size = Vector3.new(1,2,1) Virusify(LeArm)
+makejoint(c.Torso, LSC0, LSC1, c.Torso, LeArm, "Left Shoulder")
+local RiLeg = Instance.new("Part",c)RiLeg.Name = "Right Leg" RiLeg.Size = Vector3.new(1,2,1) Virusify(RiLeg)
+makejoint(c.Torso, RHC0, RHC1, c.Torso, RiLeg, "Right Hip")
+local LeLeg = Instance.new("Part",c)LeLeg.Name = "Left Leg" LeLeg.Size = Vector3.new(1,2,1) Virusify(LeLeg)
+makejoint(c.Torso, LHC0, LHC1, c.Torso, LeLeg, "Left Hip")
+c.HumanoidRootPart.CFrame = LastPos*CFrame.new(math.random(-5,5),0,math.random(-5,5))
+Resetting = false c.Humanoid.Died:connect(Reset) c.Parent = game.Workspace
+end
+end
+c.Humanoid.Died:connect(Reset)
+
+function onKeyPress(inputObject, gameProcessedEvent)
+if isTyping == true then return end
+if inputObject.KeyCode == Enum.KeyCode.W then ctrl.f = 1 end
+if inputObject.KeyCode == Enum.KeyCode.S then ctrl.b = -1 end
+if inputObject.KeyCode == Enum.KeyCode.A then ctrl.l = -1 end
+if inputObject.KeyCode == Enum.KeyCode.D then ctrl.r = 1 end
+end
+game:GetService("UserInputService").InputBegan:connect(onKeyPress)
+
+function onKeyLift(inputObject, gameProcessedEvent)
+if isTyping == true then return end
+if inputObject.KeyCode == Enum.KeyCode.W then ctrl.f = 0 end
+if inputObject.KeyCode == Enum.KeyCode.S then ctrl.b = 0 end
+if inputObject.KeyCode == Enum.KeyCode.A then ctrl.l = 0 end
+if inputObject.KeyCode == Enum.KeyCode.D then ctrl.r = 0 end
+end
+game:GetService("UserInputService").InputEnded:connect(onKeyLift)
+
+WholeBody = c:clone()
+
+function makejoint(paren, co, ci, parto, parti, nam)local gloo = Instance.new("Motor6D")gloo.Name = nam gloo.C0 = co gloo.C1 = ci gloo.Part0 = parto gloo.Part1 = parti gloo.Parent = paren end
+idletime = 0
+sine = 0
+game:GetService("RunService").RenderStepped:connect(function()
+c.Humanoid.MaxHealth = c.Humanoid.MaxHealth + math.huge c.Humanoid.Health = c.Humanoid.Health + math.huge
+if Resetting == false then
+if c:findFirstChild("Head")== nil or c:findFirstChild("Torso")== nil or c:findFirstChild("HumanoidRootPart")== nil or c.HumanoidRootPart:findFirstChild("RootJoint")== nil then 
+Reset()
+else
+LastPos = c.HumanoidRootPart.CFrame
+end
+if c.Torso:findFirstChild("Right Shoulder") == nil or c:findFirstChild("Right Arm")== nil then print("RA")
+local BodyPart = Instance.new("Part",c)BodyPart.Name = "Right Arm" BodyPart.Size = Vector3.new(1,2,1) Virusify(BodyPart)
+makejoint(c.Torso, RSC0, RSC1, c.Torso, BodyPart, "Right Shoulder")
+end
+if c.Torso:findFirstChild("Left Shoulder") == nil or c:findFirstChild("Left Arm")== nil then print("LA")
+local BodyPart = Instance.new("Part",c)BodyPart.Name = "Left Arm" BodyPart.Size = Vector3.new(1,2,1) Virusify(BodyPart)
+makejoint(c.Torso, LSC0, LSC1, c.Torso, BodyPart, "Left Shoulder")
+end
+if c.Torso:findFirstChild("Right Hip") == nil or c:findFirstChild("Right Leg")== nil then print("RL")
+local BodyPart = Instance.new("Part",c)BodyPart.Name = "Right Leg" BodyPart.Size = Vector3.new(1,2,1) Virusify(BodyPart)
+makejoint(c.Torso, RHC0, RHC1, c.Torso, BodyPart, "Right Hip")
+end 
+if c.Torso:findFirstChild("Left Hip") == nil or c:findFirstChild("Left Leg")== nil then print("LL")
+local BodyPart = Instance.new("Part",c)BodyPart.Name = "Left Leg" BodyPart.Size = Vector3.new(1,2,1) Virusify(BodyPart)
+makejoint(c.Torso, LHC0, LHC1, c.Torso, BodyPart, "Left Hip")
+end
+local r = math.random(1,15)
+if r == 1 then S.PlaybackSpeed = math.random(1,50)/10 end
+if attack == false and Cloud == false then
+local r2 = math.random(1,50)
+if r2 == 1 then
+lerpz(RJ, "C0", RJC0 * cf(math.random(-5,5)/10, math.random(-5,5)/10, math.random(-5,5)/10) * ang(rd(0), rd(0), rd(0)), 1)-- Y, X, Z
+lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1) -- Y, X, Z
+lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1) -- Z, X, Y 
+lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1) -- Z, X, Y
+lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1) -- Z, X, Y
+lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1) -- Z, X, Y
+lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+end
+lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)-- Y, X, Z
+lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Y, X, Z
+lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y 
+lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y
+lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y
+lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y
+lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+end
+end
+end)

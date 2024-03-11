@@ -1,0 +1,57 @@
+-- 1
+local UWPVersions = {
+    "2.590.678",
+    "2.592.586",
+}
+
+game.Players.PlayerAdded:Connect(function(player)
+    local success, version = pcall(function()
+        return player:GetJoinData().ClientVersionString
+    end)
+    if success and table.find(UWPVersions, version) then
+        player:Kick("UWP detected")
+    end
+end)
+how about we try to make module that will update uwpversions?
+
+local UWPVersions = {
+    "2.590.678",
+    "2.592.586",
+}
+
+return UWPVersions
+-- MainScript.lua
+local UWPVersions = require(script:WaitForChild("UWPVersions"))
+
+game.Players.PlayerAdded:Connect(function(player)
+    local success, version = pcall(function()
+        return player:GetJoinData().ClientVersionString
+    end)
+    if success and table.find(UWPVersions, version) then
+        player:Kick("UWP detected")
+    end
+end)
+
+-- 2 
+local HttpService = game:GetService("HttpService")
+local UWPVersions = require(script:WaitForChild("UWPVersions"))
+
+-- Get the latest version of the Roblox client from the Google Play Store
+local success, response = pcall(function()
+    return HttpService:GetAsync("https://play.google.com/store/apps/details?id=com.roblox.client&hl=en_US&gl=US")
+end)
+if success then
+    local version = string.match(response, "Current Version.+>([%d%.]+)<")
+    if version and not table.find(UWPVersions, version) then
+        table.insert(UWPVersions, version)
+    end
+end
+
+game.Players.PlayerAdded:Connect(function(player)
+    local success, version = pcall(function()
+        return player:GetJoinData().ClientVersionString
+    end)
+    if success and table.find(UWPVersions, version) then
+        player:Kick("UWP detected")
+    end
+end)
