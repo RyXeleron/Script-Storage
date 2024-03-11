@@ -1,6 +1,6 @@
 loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/Extras/Global'))()
 local ServiceID = "vghub"
-local PandaAuth = loadstring(game:HttpGet('https://pandadevelopment.net/servicelib?service=vghub&core=roblox&param=v2'))()
+local PandaAuth = loadstring(game:HttpGet('https://raw.githubusercontent.com/RyXeleron/Script-Storage/main/PandaDev%20VG.lua'))()
 local Random = false
 
 
